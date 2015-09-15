@@ -43,5 +43,17 @@ namespace TeamMaker
                 playerList[n] = tempPlayer;
             }
         }
+
+        public IList<Player> BuildTeams()
+        {
+            return ReAddTeammates();
+        }
+
+        IList<Player> ReAddTeammates()
+        {
+            IList<Player> tempList = new List<Player>();
+
+            return tempList;
+        }
     }
 }
