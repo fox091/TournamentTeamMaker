@@ -56,7 +56,7 @@
             this.gbResults.Location = new System.Drawing.Point(227, 152);
             this.gbResults.Name = "gbResults";
             this.gbResults.Size = new System.Drawing.Size(200, 160);
-            this.gbResults.TabIndex = 9;
+            this.gbResults.TabIndex = 3;
             this.gbResults.TabStop = false;
             this.gbResults.Text = "Results";
             // 
@@ -76,7 +76,7 @@
             this.gbBuildTeams.Location = new System.Drawing.Point(21, 150);
             this.gbBuildTeams.Name = "gbBuildTeams";
             this.gbBuildTeams.Size = new System.Drawing.Size(200, 162);
-            this.gbBuildTeams.TabIndex = 8;
+            this.gbBuildTeams.TabIndex = 2;
             this.gbBuildTeams.TabStop = false;
             this.gbBuildTeams.Text = "Build Teams";
             // 
@@ -86,8 +86,10 @@
             this.btnBuildTeams.Name = "btnBuildTeams";
             this.btnBuildTeams.Size = new System.Drawing.Size(75, 23);
             this.btnBuildTeams.TabIndex = 2;
+            this.btnBuildTeams.TabStop = false;
             this.btnBuildTeams.Text = "Build Teams";
             this.btnBuildTeams.UseVisualStyleBackColor = true;
+            this.btnBuildTeams.Click += new System.EventHandler(this.btnBuildTeams_Click);
             // 
             // txtBuildTeams
             // 
@@ -95,7 +97,8 @@
             this.txtBuildTeams.MaxLength = 3;
             this.txtBuildTeams.Name = "txtBuildTeams";
             this.txtBuildTeams.Size = new System.Drawing.Size(100, 20);
-            this.txtBuildTeams.TabIndex = 1;
+            this.txtBuildTeams.TabIndex = 0;
+            this.txtBuildTeams.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBuildTeams_KeyPress);
             // 
             // lblBuildTeams
             // 
@@ -116,7 +119,7 @@
             this.gbDuoQueue.Location = new System.Drawing.Point(227, 12);
             this.gbDuoQueue.Name = "gbDuoQueue";
             this.gbDuoQueue.Size = new System.Drawing.Size(200, 132);
-            this.gbDuoQueue.TabIndex = 7;
+            this.gbDuoQueue.TabIndex = 1;
             this.gbDuoQueue.TabStop = false;
             this.gbDuoQueue.Text = "Duo Queue";
             // 
@@ -126,8 +129,10 @@
             this.btnDuoAdd.Name = "btnDuoAdd";
             this.btnDuoAdd.Size = new System.Drawing.Size(75, 23);
             this.btnDuoAdd.TabIndex = 3;
+            this.btnDuoAdd.TabStop = false;
             this.btnDuoAdd.Text = "Add";
             this.btnDuoAdd.UseVisualStyleBackColor = true;
+            this.btnDuoAdd.Click += new System.EventHandler(this.btnDuoAdd_Click);
             // 
             // txtDuo2
             // 
@@ -135,7 +140,8 @@
             this.txtDuo2.MaxLength = 30;
             this.txtDuo2.Name = "txtDuo2";
             this.txtDuo2.Size = new System.Drawing.Size(100, 20);
-            this.txtDuo2.TabIndex = 3;
+            this.txtDuo2.TabIndex = 1;
+            this.txtDuo2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDuo2_KeyPress);
             // 
             // lblDuo2
             // 
@@ -152,7 +158,8 @@
             this.txtDuo1.MaxLength = 30;
             this.txtDuo1.Name = "txtDuo1";
             this.txtDuo1.Size = new System.Drawing.Size(100, 20);
-            this.txtDuo1.TabIndex = 1;
+            this.txtDuo1.TabIndex = 0;
+            this.txtDuo1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDuo1_KeyPress);
             // 
             // lblDuo1
             // 
@@ -171,7 +178,7 @@
             this.gbSoloQueue.Location = new System.Drawing.Point(21, 12);
             this.gbSoloQueue.Name = "gbSoloQueue";
             this.gbSoloQueue.Size = new System.Drawing.Size(200, 132);
-            this.gbSoloQueue.TabIndex = 6;
+            this.gbSoloQueue.TabIndex = 0;
             this.gbSoloQueue.TabStop = false;
             this.gbSoloQueue.Text = "Solo Queue";
             // 
@@ -181,7 +188,8 @@
             this.txtSoloAdd.MaxLength = 30;
             this.txtSoloAdd.Name = "txtSoloAdd";
             this.txtSoloAdd.Size = new System.Drawing.Size(100, 20);
-            this.txtSoloAdd.TabIndex = 2;
+            this.txtSoloAdd.TabIndex = 0;
+            this.txtSoloAdd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSoloAdd_KeyPress);
             // 
             // btnAddSingle
             // 
@@ -189,8 +197,10 @@
             this.btnAddSingle.Name = "btnAddSingle";
             this.btnAddSingle.Size = new System.Drawing.Size(75, 23);
             this.btnAddSingle.TabIndex = 0;
+            this.btnAddSingle.TabStop = false;
             this.btnAddSingle.Text = "Add";
             this.btnAddSingle.UseVisualStyleBackColor = true;
+            this.btnAddSingle.Click += new System.EventHandler(this.btnAddSingle_Click);
             // 
             // lblSolo
             // 

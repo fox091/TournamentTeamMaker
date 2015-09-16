@@ -34,25 +34,54 @@ namespace TeamMaker
         {
             Random rng = new Random();
             int n = playerList.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = rng.Next(n + 1);
-                Player tempPlayer = playerList[k];
-                playerList[k] = playerList[n];
-                playerList[n] = tempPlayer;
-            }
+            int teamCount;
+            bool runAgain;
+            do {
+                teamCount = 0;
+                runAgain = false;
+                while (n > 1)
+                {
+                    n--;
+                    int k = rng.Next(n + 1);
+                    Player tempPlayer = playerList[k];
+                    playerList[k] = playerList[n];
+                    playerList[n] = tempPlayer;
+                }
+                foreach (Player p in playerList)
+                {
+                    if (!runAgain)
+                    {
+                        teamCount += p.count;
+                        if (teamCount == 5)
+                            teamCount = 0;
+                        else
+                            runAgain = true;
+                    }
+                }
+            } while (runAgain);
         }
 
-        public IList<Player> BuildTeams()
+        public IList<Player> BuildTeams(int teamSize)
         {
+            if (soloCount * (teamSize / 2) < duoCount)
+                return null;
+            Shuffle(teamSize);
             return ReAddTeammates();
         }
 
         IList<Player> ReAddTeammates()
         {
             IList<Player> tempList = new List<Player>();
-
+            foreach (Player p in playerList)
+            {
+                if (p.teammate == null)
+                    tempList.Add(p);
+                else
+                {
+                    tempList.Add(p);
+                    tempList.Add(p.teammate);
+                }
+            }
             return tempList;
         }
     }
