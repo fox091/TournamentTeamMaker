@@ -221,7 +221,8 @@
             this.Controls.Add(this.gbDuoQueue);
             this.Controls.Add(this.gbSoloQueue);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Team Maker";
             this.gbResults.ResumeLayout(false);
             this.gbBuildTeams.ResumeLayout(false);
             this.gbBuildTeams.PerformLayout();
