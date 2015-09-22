@@ -90,15 +90,41 @@ namespace TeamMaker
         private void BuildTeams()
         {
             int teamSize = 0;
+            int teamCount = 0;
+            IList<Player> playerList;
             if (!Int32.TryParse(txtBuildTeams.Text, out teamSize))
             {
                 MessageBox.Show("Could not read number. (Did you type something other than a number?)", "Error");
+                return;
             }
             if (teamSize <= 0) 
             {
                 MessageBox.Show("Team size cannot be lower than 1.", "Error");
+                return;
             }
+            if (pList.totalPlayers % teamSize != 0)
+            {
+                MessageBox.Show("There are not enough players to fill all teams.  Add " + /*a number*/"more players.", "Error");
+                return;
+            }
+            playerList = pList.BuildTeams(teamSize);
+            if (playerList == null)
+            {
+                MessageBox.Show("There too many duos in order to create full even teams.  Add " + /*a number (again)*/" more solos.", "Error");
+                return;
+            }
+            for (int i = 0; i < pList.totalPlayers; i++)
+            {
+                if (teamSize > 1)
+                {
+                    if (i == 0)
+                        lbResults.Items.Add("Team " + ++teamCount + ":");
+                    else if (i % teamSize == 0)
+                        lbResults.Items.Add("Team " + ++teamCount + ":");
 
+                }
+                lbResults.Items.Add(playerList[i].name);
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ namespace TeamMaker
         IList<Player> playerList;
         int soloCount;
         int duoCount;
+        public int totalPlayers { get; set; }
 
         public PlayerList() {
             playerList = new List<Player>();
@@ -21,13 +22,15 @@ namespace TeamMaker
         public void AddSolo(String name) {
             playerList.Add(new Player(null, name, 1));
             soloCount++;
+            totalPlayers++;
         }
 
         public void AddDuo(String name, String teammateName)
         {
             Player teammate = new Player(null, teammateName, 0);
             playerList.Add(new Player(teammate, name, 2));
-            duoCount += 2;
+            duoCount++;
+            totalPlayers += 2;
         }
 
         void Shuffle(int teamSize)
@@ -52,9 +55,9 @@ namespace TeamMaker
                     if (!runAgain)
                     {
                         teamCount += p.count;
-                        if (teamCount == 5)
+                        if (teamCount == teamSize)
                             teamCount = 0;
-                        else
+                        else if (teamCount > teamSize)
                             runAgain = true;
                     }
                 }
@@ -63,7 +66,7 @@ namespace TeamMaker
 
         public IList<Player> BuildTeams(int teamSize)
         {
-            if (soloCount * (teamSize / 2) < duoCount)
+            if (soloCount * (teamSize / 2) < duoCount || teamSize % 2 == 0)
                 return null;
             Shuffle(teamSize);
             return ReAddTeammates();
