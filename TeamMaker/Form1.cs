@@ -12,19 +12,17 @@ namespace TeamMaker
 {
     public partial class Form1 : Form
     {
-        PlayerList pList;
+        private PlayerList pList;
         public Form1()
         {
             InitializeComponent();
             pList = new PlayerList();
         }
-
-        private void btnAddSingle_Click(object sender, EventArgs e)
+        private void btnSolo_Click(object sender, EventArgs e)
         {
             AddSolo();
         }
-
-        private void txtSoloAdd_KeyPress(object sender, KeyPressEventArgs e)
+        private void txtSolo_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
@@ -32,11 +30,10 @@ namespace TeamMaker
                 AddSolo();
             }
         }
-        private void btnDuoAdd_Click(object sender, EventArgs e)
+        private void btnDuo_Click(object sender, EventArgs e)
         {
-
+            AddDuo();
         }
-
         private void txtDuo1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -46,7 +43,6 @@ namespace TeamMaker
                 txtDuo2.Focus();
             }
         }
-
         private void txtDuo2_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -55,12 +51,10 @@ namespace TeamMaker
                 AddDuo();
             }
         }
-
         private void btnBuildTeams_Click(object sender, EventArgs e)
         {
             BuildTeams();
         }
-
         private void txtBuildTeams_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -69,24 +63,40 @@ namespace TeamMaker
                 BuildTeams();
             }
         }
-
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("Are you sure you want to reset?", "Reset", MessageBoxButtons.YesNo);
+            if (dr == DialogResult.Yes)
+            {
+                pList = new PlayerList();
+                ResetAllBoxes();
+                lblCount.Text = "Total Players: " + pList.totalPlayers;
+            }
+        }
         private void AddSolo()
         {
-            pList.AddSolo(txtSoloAdd.Text);
-            txtSoloAdd.Clear();
-            txtSoloAdd.Select();
-            txtSoloAdd.Focus();
+            if (!String.IsNullOrWhiteSpace(txtSolo.Text) && txtSolo.Text.Length > 0)
+            {
+                pList.AddSolo(new Player(null, txtSolo.Text, 1));
+                txtSolo.Clear();
+                txtSolo.Select();
+                txtSolo.Focus();
+                lblCount.Text = "Total Players: " + pList.totalPlayers;
+            }
         }
-
         private void AddDuo()
         {
-            pList.AddDuo(txtDuo1.Text, txtDuo2.Text);
-            txtDuo1.Clear();
-            txtDuo2.Clear();
-            txtDuo1.Select();
-            txtDuo1.Focus();
+            if (!String.IsNullOrWhiteSpace(txtDuo1.Text) && txtDuo1.Text.Length > 0 && !String.IsNullOrWhiteSpace(txtDuo2.Text) && txtDuo2.Text.Length > 0)
+            {
+                Player teammate = new Player(null, txtDuo2.Text, 0);
+                pList.AddDuo(new Player(teammate, txtDuo1.Text, 2));
+                txtDuo1.Clear();
+                txtDuo2.Clear();
+                txtDuo1.Select();
+                txtDuo1.Focus();
+                lblCount.Text = "Total Players: " + pList.totalPlayers;
+            }
         }
-
         private void BuildTeams()
         {
             int teamSize = 0;
@@ -113,6 +123,7 @@ namespace TeamMaker
                 MessageBox.Show("There too many duos in order to create full even teams.  Add " + /*a number (again)*/" more solos.", "Error");
                 return;
             }
+            ResetAllBoxes();
             for (int i = 0; i < pList.totalPlayers; i++)
             {
                 if (teamSize > 1)
@@ -121,10 +132,17 @@ namespace TeamMaker
                         lbResults.Items.Add("Team " + ++teamCount + ":");
                     else if (i % teamSize == 0)
                         lbResults.Items.Add("Team " + ++teamCount + ":");
-
                 }
                 lbResults.Items.Add(playerList[i].name);
             }
+        }
+        private void ResetAllBoxes()
+        {
+            txtBuildTeams.Clear();
+            txtDuo1.Clear();
+            txtDuo2.Clear();
+            txtSolo.Clear();
+            lbResults.Items.Clear();
         }
     }
 }

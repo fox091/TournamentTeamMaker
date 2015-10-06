@@ -8,9 +8,9 @@ namespace TeamMaker
 {
     class PlayerList
     {
-        IList<Player> playerList;
-        int soloCount;
-        int duoCount;
+        private IList<Player> playerList;
+        private int soloCount;
+        private int duoCount;
         public int totalPlayers { get; set; }
 
         public PlayerList() {
@@ -19,21 +19,20 @@ namespace TeamMaker
             duoCount = 0;
         }
         
-        public void AddSolo(String name) {
-            playerList.Add(new Player(null, name, 1));
+        public void AddSolo(Player player) {
+            playerList.Add(player);
             soloCount++;
             totalPlayers++;
         }
 
-        public void AddDuo(String name, String teammateName)
+        public void AddDuo(Player player)
         {
-            Player teammate = new Player(null, teammateName, 0);
-            playerList.Add(new Player(teammate, name, 2));
+            playerList.Add(player);
             duoCount++;
             totalPlayers += 2;
         }
 
-        void Shuffle(int teamSize)
+        private void Shuffle(int teamSize)
         {
             Random rng = new Random();
             int n = playerList.Count;
@@ -66,13 +65,13 @@ namespace TeamMaker
 
         public IList<Player> BuildTeams(int teamSize)
         {
-            if (soloCount * (teamSize / 2) < duoCount || teamSize % 2 == 0)
+            if (soloCount * (teamSize / 2) < duoCount && teamSize % 2 != 0)
                 return null;
             Shuffle(teamSize);
             return ReAddTeammates();
         }
 
-        IList<Player> ReAddTeammates()
+        private IList<Player> ReAddTeammates()
         {
             IList<Player> tempList = new List<Player>();
             foreach (Player p in playerList)

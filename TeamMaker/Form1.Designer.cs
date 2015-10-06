@@ -31,18 +31,20 @@
             this.gbResults = new System.Windows.Forms.GroupBox();
             this.lbResults = new System.Windows.Forms.ListBox();
             this.gbBuildTeams = new System.Windows.Forms.GroupBox();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.lblCount = new System.Windows.Forms.Label();
             this.btnBuildTeams = new System.Windows.Forms.Button();
             this.txtBuildTeams = new System.Windows.Forms.TextBox();
             this.lblBuildTeams = new System.Windows.Forms.Label();
             this.gbDuoQueue = new System.Windows.Forms.GroupBox();
-            this.btnDuoAdd = new System.Windows.Forms.Button();
+            this.btnDuo = new System.Windows.Forms.Button();
             this.txtDuo2 = new System.Windows.Forms.TextBox();
             this.lblDuo2 = new System.Windows.Forms.Label();
             this.txtDuo1 = new System.Windows.Forms.TextBox();
             this.lblDuo1 = new System.Windows.Forms.Label();
             this.gbSoloQueue = new System.Windows.Forms.GroupBox();
-            this.txtSoloAdd = new System.Windows.Forms.TextBox();
-            this.btnAddSingle = new System.Windows.Forms.Button();
+            this.txtSolo = new System.Windows.Forms.TextBox();
+            this.btnSolo = new System.Windows.Forms.Button();
             this.lblSolo = new System.Windows.Forms.Label();
             this.gbResults.SuspendLayout();
             this.gbBuildTeams.SuspendLayout();
@@ -70,6 +72,8 @@
             // 
             // gbBuildTeams
             // 
+            this.gbBuildTeams.Controls.Add(this.btnReset);
+            this.gbBuildTeams.Controls.Add(this.lblCount);
             this.gbBuildTeams.Controls.Add(this.btnBuildTeams);
             this.gbBuildTeams.Controls.Add(this.txtBuildTeams);
             this.gbBuildTeams.Controls.Add(this.lblBuildTeams);
@@ -80,9 +84,28 @@
             this.gbBuildTeams.TabStop = false;
             this.gbBuildTeams.Text = "Build Teams";
             // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(14, 125);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(75, 23);
+            this.btnReset.TabIndex = 3;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // lblCount
+            // 
+            this.lblCount.AutoSize = true;
+            this.lblCount.Location = new System.Drawing.Point(97, 92);
+            this.lblCount.Name = "lblCount";
+            this.lblCount.Size = new System.Drawing.Size(80, 13);
+            this.lblCount.TabIndex = 2;
+            this.lblCount.Text = "Total Players: 0";
+            // 
             // btnBuildTeams
             // 
-            this.btnBuildTeams.Location = new System.Drawing.Point(100, 125);
+            this.btnBuildTeams.Location = new System.Drawing.Point(111, 125);
             this.btnBuildTeams.Name = "btnBuildTeams";
             this.btnBuildTeams.Size = new System.Drawing.Size(75, 23);
             this.btnBuildTeams.TabIndex = 2;
@@ -93,7 +116,7 @@
             // 
             // txtBuildTeams
             // 
-            this.txtBuildTeams.Location = new System.Drawing.Point(75, 27);
+            this.txtBuildTeams.Location = new System.Drawing.Point(86, 27);
             this.txtBuildTeams.MaxLength = 3;
             this.txtBuildTeams.Name = "txtBuildTeams";
             this.txtBuildTeams.Size = new System.Drawing.Size(100, 20);
@@ -111,7 +134,7 @@
             // 
             // gbDuoQueue
             // 
-            this.gbDuoQueue.Controls.Add(this.btnDuoAdd);
+            this.gbDuoQueue.Controls.Add(this.btnDuo);
             this.gbDuoQueue.Controls.Add(this.txtDuo2);
             this.gbDuoQueue.Controls.Add(this.lblDuo2);
             this.gbDuoQueue.Controls.Add(this.txtDuo1);
@@ -123,16 +146,16 @@
             this.gbDuoQueue.TabStop = false;
             this.gbDuoQueue.Text = "Duo Queue";
             // 
-            // btnDuoAdd
+            // btnDuo
             // 
-            this.btnDuoAdd.Location = new System.Drawing.Point(110, 95);
-            this.btnDuoAdd.Name = "btnDuoAdd";
-            this.btnDuoAdd.Size = new System.Drawing.Size(75, 23);
-            this.btnDuoAdd.TabIndex = 3;
-            this.btnDuoAdd.TabStop = false;
-            this.btnDuoAdd.Text = "Add";
-            this.btnDuoAdd.UseVisualStyleBackColor = true;
-            this.btnDuoAdd.Click += new System.EventHandler(this.btnDuoAdd_Click);
+            this.btnDuo.Location = new System.Drawing.Point(110, 95);
+            this.btnDuo.Name = "btnDuo";
+            this.btnDuo.Size = new System.Drawing.Size(75, 23);
+            this.btnDuo.TabIndex = 3;
+            this.btnDuo.TabStop = false;
+            this.btnDuo.Text = "Add";
+            this.btnDuo.UseVisualStyleBackColor = true;
+            this.btnDuo.Click += new System.EventHandler(this.btnDuo_Click);
             // 
             // txtDuo2
             // 
@@ -172,8 +195,8 @@
             // 
             // gbSoloQueue
             // 
-            this.gbSoloQueue.Controls.Add(this.txtSoloAdd);
-            this.gbSoloQueue.Controls.Add(this.btnAddSingle);
+            this.gbSoloQueue.Controls.Add(this.txtSolo);
+            this.gbSoloQueue.Controls.Add(this.btnSolo);
             this.gbSoloQueue.Controls.Add(this.lblSolo);
             this.gbSoloQueue.Location = new System.Drawing.Point(21, 12);
             this.gbSoloQueue.Name = "gbSoloQueue";
@@ -182,25 +205,25 @@
             this.gbSoloQueue.TabStop = false;
             this.gbSoloQueue.Text = "Solo Queue";
             // 
-            // txtSoloAdd
+            // txtSolo
             // 
-            this.txtSoloAdd.Location = new System.Drawing.Point(86, 27);
-            this.txtSoloAdd.MaxLength = 30;
-            this.txtSoloAdd.Name = "txtSoloAdd";
-            this.txtSoloAdd.Size = new System.Drawing.Size(100, 20);
-            this.txtSoloAdd.TabIndex = 0;
-            this.txtSoloAdd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSoloAdd_KeyPress);
+            this.txtSolo.Location = new System.Drawing.Point(86, 27);
+            this.txtSolo.MaxLength = 30;
+            this.txtSolo.Name = "txtSolo";
+            this.txtSolo.Size = new System.Drawing.Size(100, 20);
+            this.txtSolo.TabIndex = 0;
+            this.txtSolo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSolo_KeyPress);
             // 
-            // btnAddSingle
+            // btnSolo
             // 
-            this.btnAddSingle.Location = new System.Drawing.Point(111, 95);
-            this.btnAddSingle.Name = "btnAddSingle";
-            this.btnAddSingle.Size = new System.Drawing.Size(75, 23);
-            this.btnAddSingle.TabIndex = 0;
-            this.btnAddSingle.TabStop = false;
-            this.btnAddSingle.Text = "Add";
-            this.btnAddSingle.UseVisualStyleBackColor = true;
-            this.btnAddSingle.Click += new System.EventHandler(this.btnAddSingle_Click);
+            this.btnSolo.Location = new System.Drawing.Point(111, 95);
+            this.btnSolo.Name = "btnSolo";
+            this.btnSolo.Size = new System.Drawing.Size(75, 23);
+            this.btnSolo.TabIndex = 0;
+            this.btnSolo.TabStop = false;
+            this.btnSolo.Text = "Add";
+            this.btnSolo.UseVisualStyleBackColor = true;
+            this.btnSolo.Click += new System.EventHandler(this.btnSolo_Click);
             // 
             // lblSolo
             // 
@@ -243,15 +266,17 @@
         private System.Windows.Forms.TextBox txtBuildTeams;
         private System.Windows.Forms.Label lblBuildTeams;
         private System.Windows.Forms.GroupBox gbDuoQueue;
-        private System.Windows.Forms.Button btnDuoAdd;
+        private System.Windows.Forms.Button btnDuo;
         private System.Windows.Forms.TextBox txtDuo2;
         private System.Windows.Forms.Label lblDuo2;
         private System.Windows.Forms.TextBox txtDuo1;
         private System.Windows.Forms.Label lblDuo1;
         private System.Windows.Forms.GroupBox gbSoloQueue;
-        private System.Windows.Forms.TextBox txtSoloAdd;
-        private System.Windows.Forms.Button btnAddSingle;
+        private System.Windows.Forms.TextBox txtSolo;
+        private System.Windows.Forms.Button btnSolo;
         private System.Windows.Forms.Label lblSolo;
+        private System.Windows.Forms.Label lblCount;
+        private System.Windows.Forms.Button btnReset;
     }
 }
 
