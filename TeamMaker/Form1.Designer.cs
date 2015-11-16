@@ -46,6 +46,7 @@
             this.txtSolo = new System.Windows.Forms.TextBox();
             this.btnSolo = new System.Windows.Forms.Button();
             this.lblSolo = new System.Windows.Forms.Label();
+            this.sfd = new System.Windows.Forms.SaveFileDialog();
             this.gbResults.SuspendLayout();
             this.gbBuildTeams.SuspendLayout();
             this.gbDuoQueue.SuspendLayout();
@@ -234,6 +235,11 @@
             this.lblSolo.TabIndex = 1;
             this.lblSolo.Text = "Player Name: ";
             // 
+            // sfd
+            // 
+            this.sfd.DefaultExt = "txt";
+            this.sfd.Filter = "Text FIles|*.txt";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -277,6 +283,7 @@
         private System.Windows.Forms.Label lblSolo;
         private System.Windows.Forms.Label lblCount;
         private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.SaveFileDialog sfd;
     }
 }
 

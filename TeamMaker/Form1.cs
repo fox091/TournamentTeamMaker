@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace TeamMaker
 {
     public partial class Form1 : Form
     {
         private PlayerList pList;
+        private StreamWriter sw;
         public Form1()
         {
             InitializeComponent();
@@ -102,39 +104,49 @@ namespace TeamMaker
             int teamSize = 0;
             int teamCount = 0;
             IList<Player> playerList;
-            if (!Int32.TryParse(txtBuildTeams.Text, out teamSize))
+            DialogResult dr = sfd.ShowDialog();
+            if (dr == DialogResult.OK)
             {
-                MessageBox.Show("Could not read number. (Did you type something other than a number?)", "Error");
-                return;
-            }
-            if (teamSize <= 0) 
-            {
-                MessageBox.Show("Team size cannot be lower than 1.", "Error");
-                return;
-            }
-            if (pList.totalPlayers % teamSize != 0)
-            {
-                MessageBox.Show("There are not enough players to fill all teams.  Add " + /*a number*/"more players.", "Error");
-                return;
-            }
-            playerList = pList.BuildTeams(teamSize);
-            if (playerList == null)
-            {
-                MessageBox.Show("There too many duos in order to create full even teams.  Add " + /*a number (again)*/" more solos.", "Error");
-                return;
-            }
-            ResetAllBoxes();
-            for (int i = 0; i < pList.totalPlayers; i++)
-            {
-                if (teamSize > 1)
+                sw = new StreamWriter(sfd.FileName);
+                if (!Int32.TryParse(txtBuildTeams.Text, out teamSize))
                 {
-                    if (i == 0)
-                        lbResults.Items.Add("Team " + ++teamCount + ":");
-                    else if (i % teamSize == 0)
-                        lbResults.Items.Add("Team " + ++teamCount + ":");
+                    MessageBox.Show("Could not read number. (Did you type something other than a number?)", "Error");
+                    return;
                 }
-                lbResults.Items.Add(playerList[i].name);
+                if (teamSize <= 0)
+                {
+                    MessageBox.Show("Team size cannot be lower than 1.", "Error");
+                    return;
+                }
+                if (pList.totalPlayers % teamSize != 0)
+                {
+                    MessageBox.Show("There are not enough players to fill all teams.  Add " + /*a number*/"more players.", "Error");
+                    return;
+                }
+                playerList = pList.BuildTeams(teamSize);
+                if (playerList == null)
+                {
+                    MessageBox.Show("There too many duos in order to create full even teams.  Add " + /*a number (again)*/" more solos.", "Error");
+                    return;
+                }
+                ResetAllBoxes();
+                for (int i = 0; i < pList.totalPlayers; i++)
+                {
+                    if (teamSize > 1)
+                    {
+                        if (i == 0 || i % teamSize == 0)
+                        {
+                            lbResults.Items.Add("Team " + ++teamCount + ":");
+                            sw.WriteLine();
+                            sw.WriteLine("Team " + teamCount + ":");
+                        }
+                    }
+                    lbResults.Items.Add(playerList[i].name);
+                    sw.WriteLine(playerList[i].name);
+                }
+                sw.Flush();
             }
+            sw.Close();
         }
         private void ResetAllBoxes()
         {
