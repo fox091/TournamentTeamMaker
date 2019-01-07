@@ -1,4 +1,4 @@
-#Tournament Team Builder
+# Tournament Team Maker
 
 Shuffles a list of players to form teams of the size that you enter.
 
