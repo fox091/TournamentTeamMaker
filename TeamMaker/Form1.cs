@@ -14,10 +14,13 @@ namespace TeamMaker
             InitializeComponent();
             pList = new PlayerList();
         }
+
+        #region UI control event stubs
         private void btnSolo_Click(object sender, EventArgs e)
         {
             AddSolo();
         }
+
         private void txtSolo_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -26,10 +29,12 @@ namespace TeamMaker
                 AddSolo();
             }
         }
+
         private void btnDuo_Click(object sender, EventArgs e)
         {
             AddDuo();
         }
+
         private void txtDuo1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -39,6 +44,7 @@ namespace TeamMaker
                 txtDuo2.Focus();
             }
         }
+
         private void txtDuo2_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -47,10 +53,12 @@ namespace TeamMaker
                 AddDuo();
             }
         }
+
         private void btnBuildTeams_Click(object sender, EventArgs e)
         {
             BuildTeams();
         }
+
         private void txtBuildTeams_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -59,6 +67,7 @@ namespace TeamMaker
                 BuildTeams();
             }
         }
+
         private void btnReset_Click(object sender, EventArgs e)
         {
             DialogResult dr = MessageBox.Show("Are you sure you want to reset?", "Reset", MessageBoxButtons.YesNo);
@@ -69,30 +78,45 @@ namespace TeamMaker
                 lblCount.Text = $"Total Players: { pList.TotalPlayers }";
             }
         }
+        #endregion
+
+        /// <summary>
+        /// Validates user input and adds a solo player to the player list.
+        /// </summary>
         private void AddSolo()
         {
-            if (!String.IsNullOrWhiteSpace(txtSolo.Text) && txtSolo.Text.Length > 0)
+            if (String.IsNullOrWhiteSpace(txtSolo.Text) || txtSolo.Text.Length <= 0)
             {
-                pList.AddSolo(new Player(null, txtSolo.Text, 1));
-                txtSolo.Clear();
-                txtSolo.Select();
-                txtSolo.Focus();
-                lblCount.Text = $"Total Players: { pList.TotalPlayers }";
+                return;
             }
+            pList.AddSolo(new Player(null, txtSolo.Text, 1));
+            txtSolo.Clear();
+            txtSolo.Select();
+            txtSolo.Focus();
+            lblCount.Text = $"Total Players: { pList.TotalPlayers }";
         }
+
+        /// <summary>
+        /// Validates user input and adds a solo player to the player list.
+        /// </summary>
         private void AddDuo()
         {
-            if (!String.IsNullOrWhiteSpace(txtDuo1.Text) && txtDuo1.Text.Length > 0 && !String.IsNullOrWhiteSpace(txtDuo2.Text) && txtDuo2.Text.Length > 0)
+            if (String.IsNullOrWhiteSpace(txtDuo1.Text) || txtDuo1.Text.Length <= 0 || String.IsNullOrWhiteSpace(txtDuo2.Text) || txtDuo2.Text.Length <= 0)
             {
-                Player teammate = new Player(null, txtDuo2.Text, 0);
-                pList.AddDuo(new Player(teammate, txtDuo1.Text, 2));
-                txtDuo1.Clear();
-                txtDuo2.Clear();
-                txtDuo1.Select();
-                txtDuo1.Focus();
-                lblCount.Text = $"Total Players: { pList.TotalPlayers }";
+                return;
             }
+            Player teammate = new Player(null, txtDuo2.Text, 0);
+            pList.AddDuo(new Player(teammate, txtDuo1.Text, 2));
+            txtDuo1.Clear();
+            txtDuo2.Clear();
+            txtDuo1.Select();
+            txtDuo1.Focus();
+            lblCount.Text = $"Total Players: { pList.TotalPlayers }";
         }
+
+        /// <summary>
+        /// Validates solo and duo counts for the selected team size as well as user input followed by shuffling and ouputing the teams.
+        /// </summary>
         private void BuildTeams()
         {
             #region input validation
@@ -106,17 +130,19 @@ namespace TeamMaker
                 MessageBox.Show("Team size cannot be lower than 1.", "Error");
                 return;
             }
-            if (pList.HasEnoughPlayersToFillTeamsForTeamSize(teamSize))
+            if (pList.HasEnoughPlayersForTeamSize(teamSize))
             {
-                MessageBox.Show($"There are not enough players to fill all teams.  Add { pList.GetRequiredNumberOfPlayersToFillForTeamSize(teamSize) } more players.", "Error");
+                MessageBox.Show($"There are not enough players to fill all teams.  Add { pList.GetRemainingNumberOfPlayerssForTeamSize(teamSize) } more player(s).", "Error");
                 return;
             }
-            if (pList.HasEnoughSolosToMatchWithDuosForTeamSize(teamSize))
+            if (pList.HasEnoughSolosForTeamSize(teamSize))
             {
-                MessageBox.Show("There too many duos in order to create full even teams.  Add " + /*a number*/" more solos.", "Error");
+                MessageBox.Show($"There too many duos in order to create full even teams.  Add { pList.GetRemainingNumberOfSolosForTeamSize(teamSize) } more solo(s).", "Error");
                 return;
             }
             #endregion
+
+            // TODO: Change this to get a "Team" data structure that better represents the generated teams.
             IList<Player> playerList = pList.BuildTeams(teamSize);
             DialogResult dr = sfd.ShowDialog();
             if (dr == DialogResult.OK)
@@ -144,6 +170,10 @@ namespace TeamMaker
                 }
             }
         }
+
+        /// <summary>
+        /// Clears all the boxes so we can run again.
+        /// </summary>
         private void ResetAllBoxes()
         {
             txtBuildTeams.Clear();
