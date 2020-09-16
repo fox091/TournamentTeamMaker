@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TeamMaker
 {
     class Player
     {
-        public Player teammate { get; set; }
-        public String name { get; set; }
-        public int count { get; set; }
+        public Player Teammate { get; set; }
+        public string Name { get; set; }
+        public int Count { get; set; }
 
-        public Player(Player team, String playerName, int playerCount)
+        public Player(Player team, string playerName, int playerCount)
         {
-            teammate = team;
-            name = playerName;
-            count = playerCount;
+            Teammate = team;
+            Name = playerName;
+            Count = playerCount;
         }
     }
 }

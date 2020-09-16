@@ -1,35 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TeamMaker
 {
     class PlayerList
     {
-        private IList<Player> playerList;
+        private readonly IList<Player> playerList;
         private int soloCount;
         private int duoCount;
-        public int totalPlayers { get; set; }
+        public int TotalPlayers { get; set; }
 
-        public PlayerList() {
+        public PlayerList()
+        {
             playerList = new List<Player>();
             soloCount = 0;
             duoCount = 0;
         }
-        
-        public void AddSolo(Player player) {
+
+        public void AddSolo(Player player)
+        {
             playerList.Add(player);
             soloCount++;
-            totalPlayers++;
+            TotalPlayers++;
         }
 
         public void AddDuo(Player player)
         {
             playerList.Add(player);
             duoCount++;
-            totalPlayers += 2;
+            TotalPlayers += 2;
+        }
+
+        public bool HasEnoughPlayersToFillTeamsForTeamSize(int teamSize)
+        {
+            return this.TotalPlayers % teamSize != 0;
+        }
+
+        public int GetRequiredNumberOfPlayersToFillForTeamSize(int teamSize)
+        {
+            return teamSize - (this.TotalPlayers % teamSize);
+        }
+
+        public bool HasEnoughSolosToMatchWithDuosForTeamSize(int teamSize)
+        {
+            return (this.soloCount * (teamSize / 2) < this.duoCount && teamSize % 2 != 0);
         }
 
         private void Shuffle(int teamSize)
@@ -38,7 +52,8 @@ namespace TeamMaker
             int n = playerList.Count;
             int teamCount;
             bool runAgain;
-            do {
+            do
+            {
                 teamCount = 0;
                 runAgain = false;
                 while (n > 1)
@@ -53,7 +68,7 @@ namespace TeamMaker
                 {
                     if (!runAgain)
                     {
-                        teamCount += p.count;
+                        teamCount += p.Count;
                         if (teamCount == teamSize)
                             teamCount = 0;
                         else if (teamCount > teamSize)
@@ -65,8 +80,6 @@ namespace TeamMaker
 
         public IList<Player> BuildTeams(int teamSize)
         {
-            if (soloCount * (teamSize / 2) < duoCount && teamSize % 2 != 0)
-                return null;
             Shuffle(teamSize);
             return ReAddTeammates();
         }
@@ -76,12 +89,12 @@ namespace TeamMaker
             IList<Player> tempList = new List<Player>();
             foreach (Player p in playerList)
             {
-                if (p.teammate == null)
+                if (p.Teammate == null)
                     tempList.Add(p);
                 else
                 {
                     tempList.Add(p);
-                    tempList.Add(p.teammate);
+                    tempList.Add(p.Teammate);
                 }
             }
             return tempList;
