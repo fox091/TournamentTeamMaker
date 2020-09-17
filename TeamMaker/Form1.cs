@@ -147,7 +147,6 @@ namespace TeamMaker
             #endregion
             int teamNumber;
             ResetAllBoxes();
-            // TODO: Change this to get a "Team" data structure that better represents the generated teams.
             IEnumerable<Team> teamList = this.PlayerList.BuildTeams(teamSize);
 
             var confirmResult = MessageBox.Show("Would you like to save the results to a text file?", "Confirm", MessageBoxButtons.YesNo);
