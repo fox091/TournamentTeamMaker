@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace TeamMaker
 {
@@ -129,19 +129,19 @@ namespace TeamMaker
         /// </summary>
         /// <param name="teamSize"></param>
         /// <returns></returns>
-        public IList<Player> BuildTeams(int teamSize)
+        public IEnumerable<Team> BuildTeams(int teamSize)
         {
             ShufflePlayerList(teamSize);
-            return FlattenShuffledList();
+            return BuildTeamsList(teamSize);
         }
 
         /// <summary>
         /// Flattens the shuffled list into a list of players unpaired from their duos.
         /// </summary>
         /// <returns></returns>
-        private IList<Player> FlattenShuffledList()
+        private IEnumerable<Team> BuildTeamsList(int teamSize)
         {
-            IList<Player> tempList = new List<Player>();
+            var tempList = new List<Player>(TotalPlayers);
             foreach (Player p in playerList)
             {
                 if (p.Teammate == null)
@@ -152,7 +152,9 @@ namespace TeamMaker
                     tempList.Add(p.Teammate);
                 }
             }
-            return tempList;
+            return tempList.Select((value, index) => new { Index = index, Value = value })
+            .GroupBy(x => x.Index / teamSize)
+            .Select(x => new Team(x.Select(v => v.Value)));
         }
     }
 }

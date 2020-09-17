@@ -145,10 +145,10 @@ namespace TeamMaker
                 return;
             }
             #endregion
-            int teamCount;
+            int teamNumber;
             ResetAllBoxes();
             // TODO: Change this to get a "Team" data structure that better represents the generated teams.
-            IList<Player> playerList = this.pList.BuildTeams(teamSize);
+            IEnumerable<Team> teamList = this.pList.BuildTeams(teamSize);
 
             var confirmResult = MessageBox.Show("Would you like to save the results to a text file?", "Confirm", MessageBoxButtons.YesNo);
             if (confirmResult == DialogResult.Yes)
@@ -158,44 +158,42 @@ namespace TeamMaker
                 {
                     using (StreamWriter sw = new StreamWriter(this.sfd.FileName))
                     {
-                        teamCount = 0;
-                        for (int i = 0; i < this.pList.TotalPlayers; i++)
+                        teamNumber = 1;
+                        foreach (var team in teamList)
                         {
-                            if (teamSize > 1)
+                            if (teamNumber != 1)
                             {
-                                if (i == 0 || i % teamSize == 0)
-                                {
-                                    ++teamCount;
-                                    if(i != 0)
-                                    {
-                                        sw.WriteLine();
-                                    }
-                                    sw.WriteLine($"Team { teamCount }:");
-                                }
+                                sw.WriteLine();
                             }
-                            sw.WriteLine(playerList[i].Name);
+
+                            sw.WriteLine($"Team { teamNumber }:");
+
+                            foreach (var player in team.Players)
+                            {
+                                sw.WriteLine(player.Name);
+                            }
+                            teamNumber++;
                         }
                         sw.Flush();
                     }
                 }
             }
             // Write to the list box no matter what.
-            teamCount = 0;
-            for (int i = 0; i < this.pList.TotalPlayers; i++)
+            teamNumber = 1;
+            foreach (var team in teamList)
             {
-                if (teamSize > 1)
+                if (teamNumber != 1)
                 {
-                    if (i == 0 || i % teamSize == 0)
-                    {
-                        ++teamCount;
-                        if (i != 0)
-                        {
-                            this.lbResults.Items.Add("");
-                        }
-                        this.lbResults.Items.Add($"Team { teamCount }:");
-                    }
+                    this.lbResults.Items.Add("");
                 }
-                this.lbResults.Items.Add(playerList[i].Name);
+
+                this.lbResults.Items.Add($"Team { teamNumber }:");
+
+                foreach (var player in team.Players)
+                {
+                    this.lbResults.Items.Add(player.Name);
+                }
+                teamNumber++;
             }
         }
 
