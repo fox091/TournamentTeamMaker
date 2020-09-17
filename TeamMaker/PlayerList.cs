@@ -125,7 +125,7 @@ namespace TeamMaker
         }
 
         /// <summary>
-        /// Shuffles the players and returns a flattened list of all of the players.
+        /// Shuffles the players and returns an IEnumerable of Team objects representing the teams.
         /// </summary>
         /// <param name="teamSize"></param>
         /// <returns></returns>
@@ -136,7 +136,7 @@ namespace TeamMaker
         }
 
         /// <summary>
-        /// Flattens the shuffled list into a list of players unpaired from their duos.
+        /// Flattens the shuffled list into a list of players unpaired from their duos and chunks them into Team objects.
         /// </summary>
         /// <returns></returns>
         private IEnumerable<Team> BuildTeamsList(int teamSize)

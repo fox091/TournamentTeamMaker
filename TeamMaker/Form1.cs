@@ -7,12 +7,12 @@ namespace TeamMaker
 {
     public partial class Form1 : Form
     {
-        private PlayerList pList;
+        private PlayerList PlayerList;
 
         public Form1()
         {
             this.InitializeComponent();
-            this.pList = new PlayerList();
+            this.PlayerList = new PlayerList();
         }
 
         #region UI control event stubs
@@ -73,9 +73,9 @@ namespace TeamMaker
             DialogResult dr = MessageBox.Show("Are you sure you want to reset?", "Reset", MessageBoxButtons.YesNo);
             if (dr == DialogResult.Yes)
             {
-                pList = new PlayerList();
+                PlayerList = new PlayerList();
                 ResetAllBoxes();
-                lblCount.Text = $"Total Players: { pList.TotalPlayers }";
+                lblCount.Text = $"Total Players: { PlayerList.TotalPlayers }";
             }
         }
         #endregion
@@ -91,11 +91,11 @@ namespace TeamMaker
             }
             var soloPlayer = new Player(null, this.txtSolo.Text, 1);
             this.lbCurrentPlayers.Items.Add(soloPlayer.GetPlayerOrDuoNames());
-            this.pList.AddSolo(soloPlayer);
+            this.PlayerList.AddSolo(soloPlayer);
             this.txtSolo.Clear();
             this.txtSolo.Select();
             this.txtSolo.Focus();
-            this.lblCount.Text = $"Total Players: { this.pList.TotalPlayers }";
+            this.lblCount.Text = $"Total Players: { this.PlayerList.TotalPlayers }";
         }
 
         /// <summary>
@@ -109,13 +109,13 @@ namespace TeamMaker
             }
             Player teammate = new Player(null, this.txtDuo2.Text, 0);
             var duoPlayer = new Player(teammate, this.txtDuo1.Text, 2);
-            this.pList.AddDuo(duoPlayer);
+            this.PlayerList.AddDuo(duoPlayer);
             this.lbCurrentPlayers.Items.Add(duoPlayer.GetPlayerOrDuoNames());
             this.txtDuo1.Clear();
             this.txtDuo2.Clear();
             this.txtDuo1.Select();
             this.txtDuo1.Focus();
-            this.lblCount.Text = $"Total Players: { pList.TotalPlayers }";
+            this.lblCount.Text = $"Total Players: { PlayerList.TotalPlayers }";
         }
 
         /// <summary>
@@ -134,21 +134,21 @@ namespace TeamMaker
                 MessageBox.Show("Team size cannot be lower than 1.", "Error");
                 return;
             }
-            if (pList.HasEnoughPlayersForTeamSize(teamSize))
+            if (PlayerList.HasEnoughPlayersForTeamSize(teamSize))
             {
-                MessageBox.Show($"There are not enough players to fill all teams.  Add { pList.GetRemainingNumberOfPlayerssForTeamSize(teamSize) } more player(s).", "Error");
+                MessageBox.Show($"There are not enough players to fill all teams.  Add { PlayerList.GetRemainingNumberOfPlayerssForTeamSize(teamSize) } more player(s).", "Error");
                 return;
             }
-            if (pList.HasEnoughSolosForTeamSize(teamSize))
+            if (PlayerList.HasEnoughSolosForTeamSize(teamSize))
             {
-                MessageBox.Show($"There too many duos in order to create full even teams.  Add { pList.GetRemainingNumberOfSolosForTeamSize(teamSize) } more solo(s).", "Error");
+                MessageBox.Show($"There too many duos in order to create full even teams.  Add { PlayerList.GetRemainingNumberOfSolosForTeamSize(teamSize) } more solo(s).", "Error");
                 return;
             }
             #endregion
             int teamNumber;
             ResetAllBoxes();
             // TODO: Change this to get a "Team" data structure that better represents the generated teams.
-            IEnumerable<Team> teamList = this.pList.BuildTeams(teamSize);
+            IEnumerable<Team> teamList = this.PlayerList.BuildTeams(teamSize);
 
             var confirmResult = MessageBox.Show("Would you like to save the results to a text file?", "Confirm", MessageBoxButtons.YesNo);
             if (confirmResult == DialogResult.Yes)
