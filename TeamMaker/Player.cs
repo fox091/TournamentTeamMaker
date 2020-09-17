@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TeamMaker
+﻿namespace TeamMaker
 {
     class Player
     {
@@ -13,6 +11,18 @@ namespace TeamMaker
             Teammate = team;
             Name = playerName;
             Count = playerCount;
+        }
+
+        public string GetPlayerOrDuoNames()
+        {
+            if(this.Teammate == null)
+            {
+                return this.Name;
+            }
+            else
+            {
+                return $"{this.Name} | {this.Teammate.Name}";
+            }
         }
     }
 }

@@ -11,8 +11,8 @@ namespace TeamMaker
 
         public Form1()
         {
-            InitializeComponent();
-            pList = new PlayerList();
+            this.InitializeComponent();
+            this.pList = new PlayerList();
         }
 
         #region UI control event stubs
@@ -85,15 +85,17 @@ namespace TeamMaker
         /// </summary>
         private void AddSolo()
         {
-            if (String.IsNullOrWhiteSpace(txtSolo.Text) || txtSolo.Text.Length <= 0)
+            if (String.IsNullOrWhiteSpace(this.txtSolo.Text) || this.txtSolo.Text.Length <= 0)
             {
                 return;
             }
-            pList.AddSolo(new Player(null, txtSolo.Text, 1));
-            txtSolo.Clear();
-            txtSolo.Select();
-            txtSolo.Focus();
-            lblCount.Text = $"Total Players: { pList.TotalPlayers }";
+            var soloPlayer = new Player(null, this.txtSolo.Text, 1);
+            this.lbCurrentPlayers.Items.Add(soloPlayer.GetPlayerOrDuoNames());
+            this.pList.AddSolo(soloPlayer);
+            this.txtSolo.Clear();
+            this.txtSolo.Select();
+            this.txtSolo.Focus();
+            this.lblCount.Text = $"Total Players: { this.pList.TotalPlayers }";
         }
 
         /// <summary>
@@ -101,17 +103,19 @@ namespace TeamMaker
         /// </summary>
         private void AddDuo()
         {
-            if (String.IsNullOrWhiteSpace(txtDuo1.Text) || txtDuo1.Text.Length <= 0 || String.IsNullOrWhiteSpace(txtDuo2.Text) || txtDuo2.Text.Length <= 0)
+            if (String.IsNullOrWhiteSpace(this.txtDuo1.Text) || this.txtDuo1.Text.Length <= 0 || String.IsNullOrWhiteSpace(this.txtDuo2.Text) || this.txtDuo2.Text.Length <= 0)
             {
                 return;
             }
-            Player teammate = new Player(null, txtDuo2.Text, 0);
-            pList.AddDuo(new Player(teammate, txtDuo1.Text, 2));
-            txtDuo1.Clear();
-            txtDuo2.Clear();
-            txtDuo1.Select();
-            txtDuo1.Focus();
-            lblCount.Text = $"Total Players: { pList.TotalPlayers }";
+            Player teammate = new Player(null, this.txtDuo2.Text, 0);
+            var duoPlayer = new Player(teammate, this.txtDuo1.Text, 2);
+            this.pList.AddDuo(duoPlayer);
+            this.lbCurrentPlayers.Items.Add(duoPlayer.GetPlayerOrDuoNames());
+            this.txtDuo1.Clear();
+            this.txtDuo2.Clear();
+            this.txtDuo1.Select();
+            this.txtDuo1.Focus();
+            this.lblCount.Text = $"Total Players: { pList.TotalPlayers }";
         }
 
         /// <summary>
@@ -143,27 +147,27 @@ namespace TeamMaker
             #endregion
 
             // TODO: Change this to get a "Team" data structure that better represents the generated teams.
-            IList<Player> playerList = pList.BuildTeams(teamSize);
-            DialogResult dr = sfd.ShowDialog();
+            IList<Player> playerList = this.pList.BuildTeams(teamSize);
+            DialogResult dr = this.sfd.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                using (StreamWriter sw = new StreamWriter(sfd.FileName))
+                using (StreamWriter sw = new StreamWriter(this.sfd.FileName))
                 {
                     int teamCount = 0;
                     ResetAllBoxes();
-                    for (int i = 0; i < pList.TotalPlayers; i++)
+                    for (int i = 0; i < this.pList.TotalPlayers; i++)
                     {
                         if (teamSize > 1)
                         {
                             if (i == 0 || i % teamSize == 0)
                             {
                                 ++teamCount;
-                                lbResults.Items.Add($"Team { teamCount }:");
+                                this.lbResults.Items.Add($"Team { teamCount }:");
                                 sw.WriteLine();
                                 sw.WriteLine($"Team { teamCount }:");
                             }
                         }
-                        lbResults.Items.Add(playerList[i].Name);
+                        this.lbResults.Items.Add(playerList[i].Name);
                         sw.WriteLine(playerList[i].Name);
                     }
                     sw.Flush();
@@ -176,11 +180,12 @@ namespace TeamMaker
         /// </summary>
         private void ResetAllBoxes()
         {
-            txtBuildTeams.Clear();
-            txtDuo1.Clear();
-            txtDuo2.Clear();
-            txtSolo.Clear();
-            lbResults.Items.Clear();
+            this.txtBuildTeams.Clear();
+            this.txtDuo1.Clear();
+            this.txtDuo2.Clear();
+            this.txtSolo.Clear();
+            this.lbResults.Items.Clear();
+            this.lbCurrentPlayers.Items.Clear();
         }
     }
 }
